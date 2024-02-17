@@ -18,7 +18,7 @@ blackjack_deck = [
     ("Jack of Spades", 10), ("Queen of Spades", 10), ("King of Spades", 10), ("Ace of Spades", 11),
 ]
 
-
+aces = ["Ace of Hearts", "Ace of Diamonds", "Ace of Clubs", "Ace of Spades"]
 
 
 class DealingCards:
@@ -44,7 +44,14 @@ class PlayerDecisions:
         self.person_deck.append(self.deck.pop(randint(0, len(self.deck) - 1)))
         return self.deck, self.person_deck
         
-
+def calculate_hand_value(hand):
+    total = 0
+    ace_count = 0
+    for card in hand:
+        value, is_ace = card[1], card[0] == 'Ace'
+        total += value
+        if is_ace:
+            ace_count += 1
 
 deck_instance = DealingCards(blackjack_deck)
 start = "yes"   # input("Welcome to my blackjack game, would you like to play? (yes/no) ")
@@ -105,7 +112,7 @@ if player_score != 21:
                 print(f"\nYour final cards were: {player_cards[0][0]}, {player_cards[1][0]} and {player_cards[2][0]}")
                 print(f"The dealers final cards were {dealer_cards[0][0]} and {dealer_cards[1][0]}")
                 break
-            
+
             break
         
 
