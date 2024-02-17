@@ -52,6 +52,10 @@ def calculate_hand_value(hand):
         total += value
         if is_ace:
             ace_count += 1
+    while total > 21 and ace_count > 0:
+        total -= 10
+        ace_count -= 1
+    return total
 
 deck_instance = DealingCards(blackjack_deck)
 start = "yes"   # input("Welcome to my blackjack game, would you like to play? (yes/no) ")
