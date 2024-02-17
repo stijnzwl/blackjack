@@ -51,7 +51,7 @@ if start == "yes":
         print(card[0])
     print("\nThe dealer also deals himself two cards. He shows you one:\n")
     print(dealer_cards[0][0])
-    
+
     player_score = 0
     dealer_score = 0
     for card in player_cards:
@@ -72,9 +72,3 @@ if start == "yes":
 
 else:
     print("So fuck off cunt")
-
-
-    
-
-
-
