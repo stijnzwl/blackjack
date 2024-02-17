@@ -67,10 +67,12 @@ if start == "yes":
         print("\nCongrats!! you already won you lucky fuck")
         print(f"\nYour final cards were: {player_cards[0][0]} and {player_cards[1][0]}")
         print(f"The dealers final cards were: {dealer_cards[0][0]} and {dealer_cards[1][0]}")
+
     elif player_score == 21 and dealer_score == 21:
         print("\nYou have a blackjack! Unfortunately for you the dealer also has a blackjack. Tie!")
         print(f"\nYour final cards were: {player_cards[0][0]} and {player_cards[1][0]}")
         print(f"The dealers final cards were {dealer_cards[0][0]} and {dealer_cards[1][0]}")
+
     else:
         print("\nTime for your next move!")
 
@@ -97,13 +99,13 @@ if player_score != 21:
                 print(f"\nYour final cards were: {player_cards[0][0]}, {player_cards[1][0]} and {player_cards[2][0]}")
                 print(f"The dealers final cards were {dealer_cards[0][0]} and {dealer_cards[1][0]}")
                 break
-            
+
             elif player_score == 21 and dealer_score == 21:
                 print("\nBlackjack! But the dealer also has blackjack :( Better luck next time!")
                 print(f"\nYour final cards were: {player_cards[0][0]}, {player_cards[1][0]} and {player_cards[2][0]}")
                 print(f"The dealers final cards were {dealer_cards[0][0]} and {dealer_cards[1][0]}")
                 break
-                
+            
             break
         
 
