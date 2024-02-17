@@ -48,7 +48,7 @@ def calculate_hand_value(hand):
     total = 0
     ace_count = 0
     for card in hand:
-        value, is_ace = card[1], card[0] == 'Ace'
+        value, is_ace = card[1], card[0] in aces
         total += value
         if is_ace:
             ace_count += 1
@@ -58,7 +58,7 @@ def calculate_hand_value(hand):
     return total
 
 deck_instance = DealingCards(blackjack_deck)
-start = "yes"   # input("Welcome to my blackjack game, would you like to play? (yes/no) ")
+start = 'yes' #input("Welcome to my blackjack game, would you like to play? (yes/no) ")
 if start == "yes":
     print("Great! You got dealt the following cards:\n")
     player_cards, dealer_cards, modified_deck = deck_instance.first_turn()
@@ -81,36 +81,67 @@ if start == "yes":
         print(f"The dealers final cards were {dealer_cards[0][0]} and {dealer_cards[1][0]}")
 
     else:
-        print("\nTime for your next move!")
+        print("\nTime for your next move!\n")
 
 else:
     print("So fuck off cunt")
 
-after_first_turn = PlayerDecisions(modified_deck, player_cards)
+after_first_turn_player = PlayerDecisions(modified_deck, player_cards)
+after_first_turn_dealer = PlayerDecisions(modified_deck, dealer_cards)
 
 if player_score != 21:
     while True:
-        answer = 'hit' #input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
+        answer = input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
         if answer == 'hit':
-            player_cards = after_first_turn.hit()[1]
+            player_cards = after_first_turn_player.hit()[1]
 
-            print(f"You got dealt a {player_cards[2][0]}\n\nYour cards are now:\n")
+            print(f"You got dealt a {player_cards[-1][0]}\n\nYour cards are now:\n")
             for card in player_cards:
                 print(card[0])
             player_score = calculate_hand_value(player_cards)
 
             if player_score == 21 and dealer_score != 21:
                 print("\nBlackjack!! You won.")
-                print(f"\nYour final cards were: {player_cards[0][0]}, {player_cards[1][0]} and {player_cards[2][0]}")
-                print(f"The dealers final cards were {dealer_cards[0][0]} and {dealer_cards[1][0]}")
+                print(f"\nYour final cards were: \n")
+                for card in player_cards:
+                    print(card[0])
+                print(f"\nThe dealers final cards were \n")
+                for card in dealer_cards:
+                    print(card[0])
                 break
 
             elif player_score == 21 and dealer_score == 21:
                 print("\nBlackjack! But the dealer also has blackjack :( Better luck next time!")
-                print(f"\nYour final cards were: {player_cards[0][0]}, {player_cards[1][0]} and {player_cards[2][0]}")
-                print(f"The dealers final cards were {dealer_cards[0][0]} and {dealer_cards[1][0]}")
+                print(f"\nYour final cards were: \n")
+                for card in player_cards:
+                    print(card[0])
+                print(f"\nThe dealers final cards were \n")
+                for card in dealer_cards:
+                    print(card[0])
                 break
 
-            break
-        
+            elif player_score > 21:
+                print("\nBust! Better luck next time.")
+                print(f"\nYour final cards were: \n")
+                for card in player_cards:
+                    print(card[0])
+                print(f"\nThe dealers final cards were \n")
+                for card in dealer_cards:
+                    print(card[0])
+                break                
+
+            elif player_score < 21 and dealer_score != 21:
+                if dealer_score >= 17:
+                    print(f"\nThe dealers cards are: \n")
+                    for card in dealer_cards:
+                        print(card[0])
+                    print("\nThe dealer stands.")
+                
+                elif dealer_score < 17:
+                    print("\nThe dealer reveals his hole card, he has the following: ")
+                    for card in dealer_cards:
+                        print(card[0])
+                    dealer_cards = after_first_turn_dealer.hit()[1]
+                
+    
 
