@@ -51,16 +51,22 @@ if start == "yes":
         print(card[0])
     print("\nThe dealer also deals himself two cards. He shows you one:\n")
     print(dealer_cards[0][0])
+    
     player_score = 0
     dealer_score = 0
     for card in player_cards:
         player_score += card[1]
     for card in dealer_cards:
-        dealer_score += card[1] 
+        dealer_score += card[1]
+        
     if player_score == 21 and dealer_score != 21:
-        print("\nCongrats!! you won already you lucky fuck")
+        print("\nCongrats!! you already won you lucky fuck")
+        print(f"\nYour final cards were: {player_cards[0][0]} and {player_cards[1][0]}")
+        print(f"The dealers cards were: {dealer_cards[0][0]} and {dealer_cards[1][0]}")
     elif player_score == 21 and dealer_score == 21:
         print("\nYou have a blackjack! Unfortunately for you the dealer also has a blackjack. Tie!")
+        print(f"\nYour final cards were: {player_cards[0][0]} and {player_cards[1][0]}")
+        print(f"The dealers cards were {dealer_cards[0][0]} and {dealer_cards[1][0]}")
     else:
         print("\nTime for your next move!")
 
