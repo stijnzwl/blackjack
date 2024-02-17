@@ -67,12 +67,8 @@ if start == "yes":
     print("\nThe dealer also deals himself two cards. He shows you one:\n")
     print(dealer_cards[0][0])
     
-    player_score = 0
-    dealer_score = 0
-    for card in player_cards:
-        player_score += card[1]
-    for card in dealer_cards:
-        dealer_score += card[1]
+    player_score = calculate_hand_value(player_cards)
+    dealer_score = calculate_hand_value(dealer_cards)
         
     if player_score == 21 and dealer_score != 21:
         print("\nCongrats!! you already won you lucky fuck")
@@ -96,14 +92,12 @@ if player_score != 21:
     while True:
         answer = 'hit' #input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
         if answer == 'hit':
-            player_score = 0
             player_cards = after_first_turn.hit()[1]
 
             print(f"You got dealt a {player_cards[2][0]}\n\nYour cards are now:\n")
             for card in player_cards:
                 print(card[0])
-            for card in player_cards:
-                player_score += card[1]
+            
 
             if player_score == 21 and dealer_score != 21:
                 print("\nBlackjack!! You won.")
