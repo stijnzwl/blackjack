@@ -97,7 +97,7 @@ if player_score != 21:
             print(f"You got dealt a {player_cards[2][0]}\n\nYour cards are now:\n")
             for card in player_cards:
                 print(card[0])
-            
+            player_score = calculate_hand_value(player_cards)
 
             if player_score == 21 and dealer_score != 21:
                 print("\nBlackjack!! You won.")
