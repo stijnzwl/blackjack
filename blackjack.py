@@ -91,16 +91,19 @@ after_first_turn_dealer = PlayerDecisions(modified_deck, dealer_cards)
 
 if player_score != 21:
     while True:
-        answer = input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
+        answer = 'hit' #input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
         if answer == 'hit':
             player_cards = after_first_turn_player.hit()[1]
-
+            modified_deck = after_first_turn_player.hit()[0]
             print(f"You got dealt a {player_cards[-1][0]}\n\nYour cards are now:\n")
             for card in player_cards:
                 print(card[0])
             player_score = calculate_hand_value(player_cards)
 
             if player_score == 21 and dealer_score != 21:
+                while dealer_score < 21:
+                    dealer_cards = after_first_turn_dealer.hit()[1]
+                    modified_deck = after_first_turn_dealer.hit()[0]
                 print("\nBlackjack!! You won.")
                 print(f"\nYour final cards were: \n")
                 for card in player_cards:
