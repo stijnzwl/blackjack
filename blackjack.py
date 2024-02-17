@@ -24,6 +24,7 @@ blackjack_deck = [
 class DealingCards:
     def __init__(self, deck):
         self.deck = deck
+
     def first_turn(self):
         player_cards = []
         dealer_cards = []
@@ -32,26 +33,29 @@ class DealingCards:
             dealer_cards.append(self.deck.pop(randint(0, len(self.deck) - 1)))
             if len(player_cards) == 2 and len(dealer_cards) == 2:
                 break
-        return player_cards, dealer_cards
+        return player_cards, dealer_cards, self.deck
 
 class PlayerDecisions:
-    def __init__(self, deck):
+    def __init__(self, deck, person_deck):
         self.deck = deck
+        self.person_deck = person_deck
 
     def hit(self):
-        pass
+        self.person_deck.append(self.deck.pop(randint(0, len(self.deck) - 1)))
+        return self.deck, self.person_deck
+        
 
 
 deck_instance = DealingCards(blackjack_deck)
 start = "yes"   # input("Welcome to my blackjack game, would you like to play? (yes/no) ")
 if start == "yes":
     print("Great! You got dealt the following cards:\n")
-    player_cards, dealer_cards = deck_instance.first_turn()
+    player_cards, dealer_cards, modified_deck = deck_instance.first_turn()
     for card in player_cards:
         print(card[0])
     print("\nThe dealer also deals himself two cards. He shows you one:\n")
     print(dealer_cards[0][0])
-
+    
     player_score = 0
     dealer_score = 0
     for card in player_cards:
@@ -62,13 +66,44 @@ if start == "yes":
     if player_score == 21 and dealer_score != 21:
         print("\nCongrats!! you already won you lucky fuck")
         print(f"\nYour final cards were: {player_cards[0][0]} and {player_cards[1][0]}")
-        print(f"The dealers cards were: {dealer_cards[0][0]} and {dealer_cards[1][0]}")
+        print(f"The dealers final cards were: {dealer_cards[0][0]} and {dealer_cards[1][0]}")
     elif player_score == 21 and dealer_score == 21:
         print("\nYou have a blackjack! Unfortunately for you the dealer also has a blackjack. Tie!")
         print(f"\nYour final cards were: {player_cards[0][0]} and {player_cards[1][0]}")
-        print(f"The dealers cards were {dealer_cards[0][0]} and {dealer_cards[1][0]}")
+        print(f"The dealers final cards were {dealer_cards[0][0]} and {dealer_cards[1][0]}")
     else:
         print("\nTime for your next move!")
 
 else:
     print("So fuck off cunt")
+
+after_first_turn = PlayerDecisions(modified_deck, player_cards)
+
+if player_score != 21:
+    while True:
+        answer = 'hit' #input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
+        if answer == 'hit':
+            player_score = 0
+            player_cards = after_first_turn.hit()[1]
+
+            print(f"You got dealt a {player_cards[2][0]}\n\nYour cards are now:\n")
+            for card in player_cards:
+                print(card[0])
+            for card in player_cards:
+                player_score += card[1]
+
+            if player_score == 21 and dealer_score != 21:
+                print("\nBlackjack!! You won.")
+                print(f"\nYour final cards were: {player_cards[0][0]}, {player_cards[1][0]} and {player_cards[2][0]}")
+                print(f"The dealers final cards were {dealer_cards[0][0]} and {dealer_cards[1][0]}")
+                break
+            
+            elif player_score == 21 and dealer_score == 21:
+                print("\nBlackjack! But the dealer also has blackjack :( Better luck next time!")
+                print(f"\nYour final cards were: {player_cards[0][0]}, {player_cards[1][0]} and {player_cards[2][0]}")
+                print(f"The dealers final cards were {dealer_cards[0][0]} and {dealer_cards[1][0]}")
+                break
+                
+            break
+        
+
