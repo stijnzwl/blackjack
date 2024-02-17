@@ -33,10 +33,17 @@ class DealingCards:
             if len(player_cards) == 2 and len(dealer_cards) == 2:
                 break
         return player_cards, dealer_cards
-            
+
+class PlayerDecisions:
+    def __init__(self, deck):
+        self.deck = deck
+
+    def hit(self):
+        pass
+
 
 deck_instance = DealingCards(blackjack_deck)
-start = input("Welcome to my blackjack game, would you like to play? (yes/no) ")
+start = "yes"   # input("Welcome to my blackjack game, would you like to play? (yes/no) ")
 if start == "yes":
     print("Great! You got dealt the following cards:\n")
     player_cards, dealer_cards = deck_instance.first_turn()
@@ -44,10 +51,24 @@ if start == "yes":
         print(card[0])
     print("\nThe dealer also deals himself two cards. He shows you one:\n")
     print(dealer_cards[0][0])
+    player_score = 0
+    dealer_score = 0
+    for card in player_cards:
+        player_score += card[1]
+    for card in dealer_cards:
+        dealer_score += card[1] 
+    if player_score == 21 and dealer_score != 21:
+        print("\nCongrats!! you won already you lucky fuck")
+    elif player_score == 21 and dealer_score == 21:
+        print("\nYou have a blackjack! Unfortunately for you the dealer also has a blackjack. Tie!")
+    else:
+        print("\nTime for your next move!")
+
 else:
     print("So fuck off cunt")
 
 
+    
 
 
 
