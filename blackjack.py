@@ -72,9 +72,9 @@ def winnings_calculator(bet, player_deck, balance):
     return balance
 
 deck_instance = DealingCards(blackjack_deck)
-start = 'yes' #input("Welcome to my blackjack game, would you like to play? (yes/no) ")
+start = input("Welcome to my blackjack game, would you like to play? (yes/no) ")
 if start == "yes":
-    bet = 2 #float(input("How much would you like to bet? "))
+    bet = float(input("How much would you like to bet? "))
     balance -= bet
     print("Great! You got dealt the following cards:\n")
     player_cards, dealer_cards, modified_deck = deck_instance.first_turn()
@@ -111,7 +111,7 @@ if player_score != 21:
     while True:
         if player_score == 21:
             break
-        answer = 'hit' #input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
+        answer = input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
         if answer == 'hit':
             modified_deck, player_cards = after_first_turn_player.hit()
             print(f"\nYou got dealt a {player_cards[-1][0]}\n\nYour cards are now:")
