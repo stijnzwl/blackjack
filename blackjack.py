@@ -58,8 +58,8 @@ def calculate_hand_value(hand):
         ace_count -= 1
     return total
 
-def winnings_calculator(bet, player_deck, balance):
-    if len(player_deck) == 2:
+def winnings_calculator(bet, player_deck, balance, turn):
+    if len(player_deck) == 2 and turn == 1:
         winnings = bet * 2.5
         balance += winnings
         print(f"Your winnings: {winnings}")
@@ -72,9 +72,10 @@ def winnings_calculator(bet, player_deck, balance):
     return balance
 
 deck_instance = DealingCards(blackjack_deck)
-start = input("Welcome to my blackjack game, would you like to play? (yes/no) ")
+start = 'yes' #input("Welcome to my blackjack game, would you like to play? (yes/no) ")
+turn = 1
 if start == "yes":
-    bet = float(input("How much would you like to bet? "))
+    bet = 100 #float(input("How much would you like to bet? "))
     balance -= bet
     print("Great! You got dealt the following cards:\n")
     player_cards, dealer_cards, modified_deck = deck_instance.first_turn()
@@ -90,7 +91,7 @@ if start == "yes":
         print("\nBlackjack!! congrats!")
         print(f"\nYour final cards were: {player_cards[0][0]} and {player_cards[1][0]}")
         print(f"The dealers final cards were: {dealer_cards[0][0]} and {dealer_cards[1][0]}")
-        winnings_calculator(bet, player_cards, balance)
+        winnings_calculator(bet, player_cards, balance, turn)
         
 
     elif player_score == 21 and dealer_score == 21:
@@ -109,6 +110,7 @@ after_first_turn_dealer = PlayerDecisions(modified_deck, dealer_cards)
 
 if player_score != 21:
     while True:
+        turn += 1
         if player_score == 21:
             break
         answer = input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
@@ -133,7 +135,7 @@ if player_score != 21:
                     for card in dealer_cards:
                         print(card[0])
                     print("\nDealer stands, you win!")
-                    winnings_calculator(bet, player_cards, balance)
+                    winnings_calculator(bet, player_cards, balance, turn)
                 while dealer_score < 17:
                     modified_deck, dealer_cards = after_first_turn_dealer.hit()
                     dealer_score = calculate_hand_value(dealer_cards)
@@ -147,11 +149,11 @@ if player_score != 21:
                         break
                     elif dealer_score > 21:
                         print("\nDealer busts. You win!!")
-                        winnings_calculator(bet, player_cards, balance)
+                        winnings_calculator(bet, player_cards, balance, turn)
                         break
                     elif dealer_score >= 17 and dealer_score < 21:
                         print("The dealer stands, you win!")
-                        winnings_calculator(bet, player_cards, balance)
+                        winnings_calculator(bet, player_cards, balance, turn)
                         break
                 break
 
@@ -174,7 +176,7 @@ if player_score != 21:
                     print("\nThe dealer stands")
                     if player_score > dealer_score:
                         print("You win!")
-                        winnings_calculator(bet, player_cards, balance)
+                        winnings_calculator(bet, player_cards, balance, turn)
                         break
                 
                 elif dealer_score < 17:
@@ -189,13 +191,13 @@ if player_score != 21:
                         break
                     elif dealer_score > 21:
                         print("\nDealer busts, You win!")
-                        winnings_calculator(bet, player_cards, balance)
+                        winnings_calculator(bet, player_cards, balance, turn)
                         break
                     elif dealer_score < 21 and dealer_score >= 17:
                         print("The dealer stands")
                         if player_score > dealer_score:
                             print("You win!")
-                            winnings_calculator(bet, player_cards, balance)
+                            winnings_calculator(bet, player_cards, balance, turn)
                             break
         if answer == 'stand':
             print("You chose to stand")
@@ -214,7 +216,7 @@ if player_score != 21:
                         print(card[0])
                     if player_score > dealer_score:
                         print("\nDealer stands, you win!")
-                        winnings_calculator(bet, player_cards, balance)
+                        winnings_calculator(bet, player_cards, balance, turn)
                         break
                     elif player_score == dealer_score:
                         print("Tie!")
@@ -235,7 +237,7 @@ if player_score != 21:
                         break
                     elif dealer_score > 21:
                         print("\nDealer busts. You win!!")
-                        winnings_calculator(bet, player_cards, balance)
+                        winnings_calculator(bet, player_cards, balance, turn)
                         break
                     elif dealer_score == player_score:
                         print("\nSame score, tie!")
@@ -243,10 +245,11 @@ if player_score != 21:
                         break
                     elif dealer_score >= 17 and dealer_score < 21 and player_score > dealer_score:
                         print("The dealer stands, you win!")
-                        winnings_calculator(bet, player_cards, balance)
+                        winnings_calculator(bet, player_cards, balance, turn)
                         break
                     elif dealer_score >= 17 and dealer_score < 21 and player_score < dealer_score:
                         print("The dealer stands, you lose!")
-        
+                        break
+            break
     
 
