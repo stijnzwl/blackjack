@@ -101,7 +101,12 @@ if player_score != 21:
                 print(card[0])
             player_score = calculate_hand_value(player_cards)
 
-            
+            if len(dealer_cards) == 2 and dealer_score == 21:
+                print("\nThe dealer shows you his hole card.")
+                for card in dealer_cards:
+                    print(card[0])
+                print("\nDealer has blackjack! Better luck next time.")
+                break
             
             if player_score == 21 and dealer_score != 21:
                 print("\nYou have 21! now it's the dealers turn: ")
