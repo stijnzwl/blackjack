@@ -72,9 +72,9 @@ def winnings_calculator(bet, player_deck, balance):
     return balance
 
 deck_instance = DealingCards(blackjack_deck)
-start = input("Welcome to my blackjack game, would you like to play? (yes/no) ")
+start = 'yes' #input("Welcome to my blackjack game, would you like to play? (yes/no) ")
 if start == "yes":
-    bet = float(input("How much would you like to bet? "))
+    bet = 2 #float(input("How much would you like to bet? "))
     balance -= bet
     print("Great! You got dealt the following cards:\n")
     player_cards, dealer_cards, modified_deck = deck_instance.first_turn()
@@ -111,7 +111,7 @@ if player_score != 21:
     while True:
         if player_score == 21:
             break
-        answer = input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
+        answer = 'hit' #input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
         if answer == 'hit':
             modified_deck, player_cards = after_first_turn_player.hit()
             print(f"\nYou got dealt a {player_cards[-1][0]}\n\nYour cards are now:")
@@ -193,7 +193,10 @@ if player_score != 21:
                         break
                     elif dealer_score < 21 and dealer_score >= 17:
                         print("The dealer stands")
-                        
+                        if player_score > dealer_score:
+                            print("You win!")
+                            winnings_calculator(bet, player_cards, balance)
+                            break
         if answer == 'stand':
             print("You chose to stand")
             if len(dealer_cards) == 2 and dealer_score == 21:
@@ -244,6 +247,6 @@ if player_score != 21:
                         break
                     elif dealer_score >= 17 and dealer_score < 21 and player_score < dealer_score:
                         print("The dealer stands, you lose!")
-        break
+        
     
 
