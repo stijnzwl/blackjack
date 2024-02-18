@@ -72,9 +72,9 @@ def winnings_calculator(bet, player_deck, balance):
     return balance
 
 deck_instance = DealingCards(blackjack_deck)
-start = 'yes' #input("Welcome to my blackjack game, would you like to play? (yes/no) ")
+start = input("Welcome to my blackjack game, would you like to play? (yes/no) ")
 if start == "yes":
-    bet = 50 #float(input("How much would you like to bet? "))
+    bet = float(input("How much would you like to bet? "))
     balance -= bet
     print("Great! You got dealt the following cards:\n")
     player_cards, dealer_cards, modified_deck = deck_instance.first_turn()
@@ -111,7 +111,7 @@ if player_score != 21:
     while True:
         if player_score == 21:
             break
-        answer = 'stand' #input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
+        answer = input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
         if answer == 'hit':
             modified_deck, player_cards = after_first_turn_player.hit()
             print(f"\nYou got dealt a {player_cards[-1][0]}\n\nYour cards are now:")
@@ -191,12 +191,59 @@ if player_score != 21:
                         print("\nDealer busts, You win!")
                         winnings_calculator(bet, player_cards, balance)
                         break
+                    elif dealer_score < 21 and dealer_score >= 17:
+                        print("The dealer stands")
+                        
         if answer == 'stand':
+            print("You chose to stand")
             if len(dealer_cards) == 2 and dealer_score == 21:
                 print("\nThe dealer shows you his hole card.")
                 for card in dealer_cards:
                     print(card[0])
                 print("\nDealer has blackjack! Better luck next time.")
                 break
+            
+            elif dealer_score != 21:
+                print("\nNow it's the dealers turn: ")
+                if dealer_score >= 17:
+                    print("The dealer reveals his hole card:\n")
+                    for card in dealer_cards:
+                        print(card[0])
+                    if player_score > dealer_score:
+                        print("\nDealer stands, you win!")
+                        winnings_calculator(bet, player_cards, balance)
+                        break
+                    elif player_score == dealer_score:
+                        print("Tie!")
+                        balance += bet
+                        break
+                    else:
+                        print("The dealer also stands, but has a higher score, you lose!")
+                        break
+                while dealer_score < 17:
+                    modified_deck, dealer_cards = after_first_turn_dealer.hit()
+                    dealer_score = calculate_hand_value(dealer_cards)
+                    print(f"\nThe dealer gets a {dealer_cards[-1][0]}")
+                    print("His cards are now: \n")
+                    for card in dealer_cards:
+                        print(card[0])
+                    if dealer_score == 21:
+                        print("The dealer has 21! You lose.")
+                        break
+                    elif dealer_score > 21:
+                        print("\nDealer busts. You win!!")
+                        winnings_calculator(bet, player_cards, balance)
+                        break
+                    elif dealer_score == player_score:
+                        print("\nSame score, tie!")
+                        balance += bet
+                        break
+                    elif dealer_score >= 17 and dealer_score < 21 and player_score > dealer_score:
+                        print("The dealer stands, you win!")
+                        winnings_calculator(bet, player_cards, balance)
+                        break
+                    elif dealer_score >= 17 and dealer_score < 21 and player_score < dealer_score:
+                        print("The dealer stands, you lose!")
+        break
     
 
