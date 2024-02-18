@@ -91,7 +91,9 @@ after_first_turn_dealer = PlayerDecisions(modified_deck, dealer_cards)
 
 if player_score != 21:
     while True:
-        answer = input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
+        if player_score == 21:
+            break
+        answer = 'hit'#input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
         if answer == 'hit':
             modified_deck, player_cards = after_first_turn_player.hit()
             print(f"\nYou got dealt a {player_cards[-1][0]}\n\nYour cards are now:")
@@ -99,32 +101,39 @@ if player_score != 21:
                 print(card[0])
             player_score = calculate_hand_value(player_cards)
 
+            
+            
             if player_score == 21 and dealer_score != 21:
-                print("\nYou have blackjack! The dealer will keep hitting: ")
-                while dealer_score < 21:
+                print("\nYou have 21! now it's the dealers turn: ")
+                if dealer_score >= 17:
+                    print("Dealer stands, you win!")
+                while dealer_score < 17:
                     modified_deck, dealer_cards = after_first_turn_dealer.hit()
                     dealer_score = calculate_hand_value(dealer_cards)
                     print(f"The dealer gets a {dealer_cards[-1][0]}")
-                    print("His cards are now: ")
+                    print("His cards are now: \n")
                     for card in dealer_cards:
                         print(card[0])
                     if dealer_score == 21:
-                        print("The dealer also has blackjack! Better luck next time.")
+                        print("The dealer also has 21! Better luck next time.")
                         break
                     elif dealer_score > 21:
-                        print("Dealer busts. You win!!")
+                        print("\nDealer busts. You win!!")
+                        break
+                    elif dealer_score >= 17 and dealer_score < 21:
+                        print("The dealer stands")
                         break
                
-                    print(f"\nYour final cards were: \n")
-                    for card in player_cards:
-                        print(card[0])
-                    print(f"\nThe dealers final cards were \n")
-                    for card in dealer_cards:
-                        print(card[0])
-                    break
+                print(f"\nYour final cards were: \n")
+                for card in player_cards:
+                    print(card[0])
+                print(f"\nThe dealers final cards were \n")
+                for card in dealer_cards:
+                    print(card[0])
+                break
 
             elif player_score == 21 and dealer_score == 21:
-                print("\nBlackjack! But the dealer also has blackjack :( Better luck next time!")
+                print("\nYou have 21! But the dealer also has 21 :( Better luck next time!")
                 print(f"\nYour final cards were: \n")
                 for card in player_cards:
                     print(card[0])
@@ -151,13 +160,23 @@ if player_score != 21:
                     print(card[0])
                 if dealer_score >= 17:
                     print("\nThe dealer stands.")
+                    if player_score > dealer_score:
+                        print("You win!")
+                        break
                 
                 elif dealer_score < 17:
                     modified_deck, dealer_cards = after_first_turn_dealer.hit()
                     print(f"\nThe dealer hits, and gets a {dealer_cards[-1][0]}")
                     print("He now has the following cards: \n")
+                    dealer_score = calculate_hand_value(dealer_cards)
                     for card in dealer_cards:
                         print(card[0])
+                    if dealer_score == 21:
+                        print("Dealer has 21! Better luck next time.")
+                        break
+                    elif dealer_score > 21:
+                        print("Dealer busts, You win!")
+                        break
 
     
 
