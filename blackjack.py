@@ -111,7 +111,7 @@ if player_score != 21:
     while True:
         if player_score == 21:
             break
-        answer = 'hit' #input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
+        answer = 'stand' #input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
         if answer == 'hit':
             modified_deck, player_cards = after_first_turn_player.hit()
             print(f"\nYou got dealt a {player_cards[-1][0]}\n\nYour cards are now:")
@@ -191,6 +191,12 @@ if player_score != 21:
                         print("\nDealer busts, You win!")
                         winnings_calculator(bet, player_cards, balance)
                         break
-
+        if answer == 'stand':
+            if len(dealer_cards) == 2 and dealer_score == 21:
+                print("\nThe dealer shows you his hole card.")
+                for card in dealer_cards:
+                    print(card[0])
+                print("\nDealer has blackjack! Better luck next time.")
+                break
     
 
