@@ -1,4 +1,6 @@
 from random import randint
+from colorama import init, Fore, Style
+init(autoreset=True)
 
 blackjack_deck = [
     ("2 of Hearts", 2), ("3 of Hearts", 3), ("4 of Hearts", 4), ("5 of Hearts", 5),
@@ -103,7 +105,7 @@ if start == "yes":
         print("\nTime for your next move!\n")
 
 else:
-    print("So fuck off cunt")
+    print("Okay, bye!")
 
 after_first_turn_player = PlayerDecisions(modified_deck, player_cards)
 after_first_turn_dealer = PlayerDecisions(modified_deck, dealer_cards)
