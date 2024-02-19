@@ -305,7 +305,8 @@ if player_score != 21:
                         break
                     elif dealer_score >= 17 and dealer_score < 21 and player_score > dealer_score:
                         print("The dealer stands, you win!")
-                        winnings_calculator(bet, player_cards, turn)
+                        add_winnings(name, winnings_calculator(bet, player_cards, turn))
+                        print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif dealer_score >= 17 and dealer_score < 21 and player_score < dealer_score:
                         print("The dealer stands, you lose!")
@@ -334,7 +335,7 @@ if player_score != 21:
                     for card in dealer_cards:
                         print(card[0])
                     print("\nDealer stands, you win!")
-                    add_winnings(name, winnings_calculator(bet, player_cards, turn))
+                    add_winnings(name, winnings_calculator(bet * 2, player_cards, turn))
                     print(f"Your balance is now: {get_player_balance(name)}")
                 while dealer_score < 17:
                     modified_deck, dealer_cards = after_first_turn_dealer.hit()
@@ -345,22 +346,24 @@ if player_score != 21:
                         print(card[0])
                     if dealer_score == 21:
                         print("The dealer also has 21, tie! Better luck next time.")
+                        add_winnings(name, bet * 2)
+                        print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif dealer_score > 21:
                         print("\nDealer busts. You win!!")
-                        add_winnings(name, winnings_calculator(bet, player_cards, turn))
+                        add_winnings(name, winnings_calculator(bet * 2, player_cards, turn))
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif dealer_score >= 17 and dealer_score < 21:
                         print("The dealer stands, you win!")
-                        add_winnings(name, winnings_calculator(bet, player_cards, turn))
+                        add_winnings(name, winnings_calculator(bet * 2, player_cards, turn))
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                 break
 
             elif player_score == 21 and dealer_score == 21:
                 print("\nYou have 21! But the dealer also has 21, tie! :( Better luck next time!")
-                add_winnings(name, bet)
+                add_winnings(name, bet * 2)
                 print(f"Your balance is now: {get_player_balance(name)}")
                 break
 
@@ -378,7 +381,7 @@ if player_score != 21:
                     print("\nThe dealer stands")
                     if player_score > dealer_score:
                         print("You win!")
-                        add_winnings(name, winnings_calculator(bet, player_cards, turn))
+                        add_winnings(name, winnings_calculator(bet * 2, player_cards, turn))
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif player_score < dealer_score:
@@ -386,7 +389,7 @@ if player_score != 21:
                         break
                     elif player_score == dealer_score:
                         print("Tie!")
-                        add_winnings(name, bet)
+                        add_winnings(name, bet * 2)
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                 while dealer_score < 17:
@@ -401,14 +404,14 @@ if player_score != 21:
                         break
                     elif dealer_score > 21:
                         print("\nDealer busts, You win!")
-                        add_winnings(name, winnings_calculator(bet, player_cards, turn))
+                        add_winnings(name, winnings_calculator(bet * 2, player_cards, turn))
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif dealer_score < 21 and dealer_score >= 17:
                         print("The dealer stands")
                         if player_score > dealer_score:
                             print("You win!")
-                            add_winnings(name, winnings_calculator(bet, player_cards, turn))
+                            add_winnings(name, winnings_calculator(bet * 2, player_cards, turn))
                             print(f"Your balance is now: {get_player_balance(name)}")
                             break
                         elif player_score < dealer_score:
@@ -416,7 +419,7 @@ if player_score != 21:
                             break
                         elif player_score == dealer_score:
                             print("Tie!")
-                            add_winnings(name, bet)
+                            add_winnings(name, bet * 2)
                             print(f"Your balance is now: {get_player_balance(name)}")
                             break
                 break
