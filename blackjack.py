@@ -244,13 +244,15 @@ if player_score != 21:
                         break
                     elif dealer_score > 21:
                         print("\nDealer busts, You win!")
-                        winnings_calculator(bet, player_cards, turn)
+                        add_winnings(name, winnings_calculator(bet, player_cards, turn))
+                        print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif dealer_score < 21 and dealer_score >= 17:
                         print("The dealer stands")
                         if player_score > dealer_score:
                             print("You win!")
-                            winnings_calculator(bet, player_cards, turn)
+                            add_winnings(name, winnings_calculator(bet, player_cards, turn))
+                            print(f"Your balance is now: {get_player_balance(name)}")
                             break
         if answer == 'stand':
             turn += 1
@@ -270,7 +272,8 @@ if player_score != 21:
                         print(card[0])
                     if player_score > dealer_score:
                         print("\nDealer stands, you win!")
-                        winnings_calculator(bet, player_cards, turn)
+                        add_winnings(name, winnings_calculator(bet, player_cards, turn))
+                        print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif player_score == dealer_score:
                         print("Tie!")
@@ -292,7 +295,8 @@ if player_score != 21:
                         break
                     elif dealer_score > 21:
                         print("\nDealer busts. You win!!")
-                        winnings_calculator(bet, player_cards, turn)
+                        add_winnings(name, winnings_calculator(bet, player_cards, turn))
+                        print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif dealer_score == player_score:
                         print("\nSame score, tie!")
