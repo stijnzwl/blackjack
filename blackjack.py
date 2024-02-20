@@ -104,45 +104,45 @@ def calculate_hand_value(hand):
 def winnings_calculator(bet, player_deck, turn):
     if len(player_deck) == 2 and turn == 1:
         winnings = bet * 2.5
-        print(f"Your winnings: {winnings}")
+        print(Fore.GREEN + Style.BRIGHT + f"Your winnings: {winnings}")
     else:
         winnings = bet * 2
-        print(f"Your winnings: {winnings}")
+        print(Fore.GREEN + Style.BRIGHT + f"Your winnings: {winnings}")
     return winnings
 
 deck_instance = DealingCards(blackjack_deck)
-start = input("Welcome to my blackjack game, would you like to play? (yes/no) ")
+start = input(Fore.MAGENTA + Style.BRIGHT + "Welcome to my blackjack game, would you like to play? (yes/no) ").lower()
 turn = 1
 if start == "yes":
-    name = str(input("Type your name: ")).lower()
-    print(get_player_balance(name))
-    balance = float(input("Add money to balance (0 - XXX): "))
+    name = str(input(Fore.WHITE + "Type your name: ")).lower()
+    print(Fore.WHITE + f"Your balance: {get_player_balance(name)}")
+    balance = float(input(Fore.MAGENTA + Style.BRIGHT + "Add money to balance (0 - XXX): "))
     update_player_balance(name, balance)
-    print(get_player_balance(name))
-    bet = float(input("How much would you like to bet? "))
+    print(Fore.WHITE + f"Your balance: {get_player_balance(name)}")
+    bet = float(input(Fore.MAGENTA + Style.BRIGHT + "How much would you like to bet? "))
     make_bet(name, bet)
-    print(Fore.GREEN + Style.BRIGHT + "Great! You got dealt the following cards:\n")
+    print(Fore.MAGENTA + Style.BRIGHT + "Great! You got dealt the following cards:\n")
     player_cards, dealer_cards, modified_deck = deck_instance.first_turn()
     for card in player_cards:
-        print(card[0])
+        print(Fore.GREEN + Style.BRIGHT + card[0])
     print("\nThe dealer also deals himself two cards. He shows you one:\n")
-    print(dealer_cards[0][0])
+    print(Fore.RED + Style.BRIGHT + dealer_cards[0][0])
     
     player_score = calculate_hand_value(player_cards)
     dealer_score = calculate_hand_value(dealer_cards)
         
     if player_score == 21 and dealer_score != 21:
-        print("\nBlackjack!! congrats!")
-        print(f"\nYour final cards were: {player_cards[0][0]} and {player_cards[1][0]}")
-        print(f"The dealers final cards were: {dealer_cards[0][0]} and {dealer_cards[1][0]}")
+        print(Fore.BLUE + Style.BRIGHT + "\nBlackjack!! congrats!")
+        print(Fore.GREEN + Style.BRIGHT + f"\nYour final cards were: {player_cards[0][0]} and {player_cards[1][0]}")
+        print(Fore.RED + Style.BRIGHT + f"The dealers final cards were: {dealer_cards[0][0]} and {dealer_cards[1][0]}")
         add_winnings(name, winnings_calculator(bet, player_cards, turn))
         print(f"Your balance is now: {get_player_balance(name)}")
         
 
     elif player_score == 21 and dealer_score == 21:
-        print("\nYou have a blackjack! Unfortunately for you the dealer also has a blackjack. Tie!")
-        print(f"\nYour final cards were: {player_cards[0][0]} and {player_cards[1][0]}")
-        print(f"The dealers final cards were {dealer_cards[0][0]} and {dealer_cards[1][0]}")
+        print(Fore.CYAN + Style.BRIGHT + "\nYou have a blackjack! Unfortunately for you the dealer also has a blackjack. Tie!")
+        print(Fore.GREEN + Style.BRIGHT + f"\nYour final cards were: {player_cards[0][0]} and {player_cards[1][0]}")
+        print(Fore.RED + Style.BRIGHT + f"The dealers final cards were {dealer_cards[0][0]} and {dealer_cards[1][0]}")
         add_winnings(name, bet)
         print(f"Your balance is now: {get_player_balance(name)}")
     else:
@@ -158,22 +158,22 @@ if player_score != 21:
     while True:
         if player_score == 21:
             break
-        answer = input("\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
+        answer = input(Fore.MAGENTA + Style.BRIGHT + "\nWhat would you like to do next? (hit / stand / double down / split / surrender / insurance) \n")
         if answer == 'double down' and turn > 1:
-            print("You can only double down on your first action")
+            print(Fore.MAGENTA + Style.BRIGHT + "You can only double down on your first action")
         if answer == 'hit':
             turn += 1
             modified_deck, player_cards = after_first_turn_player.hit()
             print(f"\nYou got dealt a {player_cards[-1][0]}\n\nYour cards are now:")
             for card in player_cards:
-                print(card[0])
+                print(Fore.GREEN + Style.BRIGHT + card[0])
             player_score = calculate_hand_value(player_cards)
 
             if len(dealer_cards) == 2 and dealer_score == 21:
                 print("\nThe dealer shows you his hole card.")
                 for card in dealer_cards:
-                    print(card[0])
-                print("\nDealer has blackjack! Better luck next time.")
+                    print(Fore.RED + Style.BRIGHT + card[0])
+                print(Fore.YELLOW + Style.BRIGHT + "\nDealer has blackjack! Better luck next time.")
                 break
     
             if player_score == 21 and dealer_score != 21:
@@ -181,8 +181,8 @@ if player_score != 21:
                 if dealer_score >= 17:
                     print("The dealer reveals his hole card:\n")
                     for card in dealer_cards:
-                        print(card[0])
-                    print("\nDealer stands, you win!")
+                        print(Fore.RED + Style.BRIGHT + card[0])
+                    print(Fore.BLUE + Style.BRIGHT + "\nDealer stands, you win!")
                     add_winnings(name, winnings_calculator(bet, player_cards, turn))
                     print(f"Your balance is now: {get_player_balance(name)}")
                     break
@@ -192,30 +192,30 @@ if player_score != 21:
                     print(f"\nThe dealer gets a {dealer_cards[-1][0]}")
                     print("His cards are now: \n")
                     for card in dealer_cards:
-                        print(card[0])
+                        print(Fore.RED + Style.BRIGHT + card[0])
                     if dealer_score == 21:
-                        print("The dealer also has 21, tie! Better luck next time.")
+                        print(Fore.CYAN + Style.BRIGHT + "The dealer also has 21, tie! Better luck next time.")
                         add_winnings(name, bet)
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif dealer_score > 21:
-                        print("\nDealer busts. You win!!")
+                        print(Fore.BLUE + Style.BRIGHT + "\nDealer busts. You win!!")
                         add_winnings(name, winnings_calculator(bet, player_cards, turn))
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif dealer_score >= 17 and dealer_score < 21:
-                        print("The dealer stands, you win!")
+                        print(Fore.BLUE + Style.BRIGHT + "The dealer stands, you win!")
                         add_winnings(name, winnings_calculator(bet, player_cards, turn))
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                 break
 
             elif player_score == 21 and dealer_score == 21:
-                print("\nYou have 21! But the dealer also has 21, tie! :( Better luck next time!")
+                print(Fore.CYAN + Style.BRIGHT + "\nYou have 21! But the dealer also has 21, tie! :( Better luck next time!")
                 break
 
             elif player_score > 21:
-                print("\nBust! Better luck next time.")
+                print(Fore.YELLOW + Style.BRIGHT + "\nBust! Better luck next time.")
                 break                
 
             elif player_score < 21 and dealer_score != 21:
@@ -223,11 +223,11 @@ if player_score != 21:
                     print("\nThe dealer reveals his hole card!")
                 print("\nThe dealer has the following cards: ")
                 for card in dealer_cards:
-                    print(card[0])
+                    print(Fore.RED + Style.BRIGHT + card[0])
                 if dealer_score >= 17:
                     print("\nThe dealer stands")
                     if player_score > dealer_score:
-                        print("You win!")
+                        print(Fore.BLUE + Style.BRIGHT + "You win!")
                         add_winnings(name, winnings_calculator(bet, player_cards, turn))
                         print(f"Your balance is now {get_player_balance(name)}")
                         break
@@ -238,30 +238,30 @@ if player_score != 21:
                     print("He now has the following cards: \n")
                     dealer_score = calculate_hand_value(dealer_cards)
                     for card in dealer_cards:
-                        print(card[0])
+                        print(Fore.RED + Style.BRIGHT + card[0])
                     if dealer_score == 21:
-                        print("\nDealer has 21! Better luck next time.")
+                        print(Fore.YELLOW + Style.BRIGHT + "\nDealer has 21! Better luck next time.")
                         break
                     elif dealer_score > 21:
-                        print("\nDealer busts, You win!")
+                        print(Fore.BLUE + Style.BRIGHT + "\nDealer busts, You win!")
                         add_winnings(name, winnings_calculator(bet, player_cards, turn))
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif dealer_score < 21 and dealer_score >= 17:
                         print("The dealer stands")
                         if player_score > dealer_score:
-                            print("You win!")
+                            print(Fore.BLUE + Style.BRIGHT + "You win!")
                             add_winnings(name, winnings_calculator(bet, player_cards, turn))
                             print(f"Your balance is now: {get_player_balance(name)}")
                             break
         if answer == 'stand':
             turn += 1
-            print("You chose to stand")
+            print(Fore.WHITE + Style.BRIGHT + "You chose to stand")
             if len(dealer_cards) == 2 and dealer_score == 21:
                 print("\nThe dealer shows you his hole card.")
                 for card in dealer_cards:
-                    print(card[0])
-                print("\nDealer has blackjack! Better luck next time.")
+                    print(Fore.RED + Style.BRIGHT + card[0])
+                print(Fore.YELLOW + Style.BRIGHT + "\nDealer has blackjack! Better luck next time.")
                 break
             
             elif dealer_score != 21:
@@ -269,19 +269,19 @@ if player_score != 21:
                 if dealer_score >= 17:
                     print("The dealer reveals his hole card:\n")
                     for card in dealer_cards:
-                        print(card[0])
+                        print(Fore.RED + Style.BRIGHT + card[0])
                     if player_score > dealer_score:
-                        print("\nDealer stands, you win!")
+                        print(Fore.BLUE + Style.BRIGHT + "\nDealer stands, you win!")
                         add_winnings(name, winnings_calculator(bet, player_cards, turn))
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif player_score == dealer_score:
-                        print("Tie!")
+                        print(Fore.CYAN + Style.BRIGHT + "Tie!")
                         add_winnings(name, bet)
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     else:
-                        print("The dealer also stands, but has a higher score, you lose!")
+                        print(Fore.YELLOW + Style.BRIGHT + "The dealer also stands, but has a higher score, you lose!")
                         break
                 while dealer_score < 17:
                     modified_deck, dealer_cards = after_first_turn_dealer.hit()
@@ -289,27 +289,27 @@ if player_score != 21:
                     print(f"\nThe dealer gets a {dealer_cards[-1][0]}")
                     print("His cards are now: \n")
                     for card in dealer_cards:
-                        print(card[0])
+                        print(Fore.RED + Style.BRIGHT + card[0])
                     if dealer_score == 21:
-                        print("The dealer has 21! You lose.")
+                        print(Fore.YELLOW + Style.BRIGHT + "The dealer has 21! You lose.")
                         break
                     elif dealer_score > 21:
-                        print("\nDealer busts. You win!!")
+                        print(Fore.BLUE + Style.BRIGHT + "\nDealer busts. You win!!")
                         add_winnings(name, winnings_calculator(bet, player_cards, turn))
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif dealer_score == player_score:
-                        print("\nSame score, tie!")
+                        print(Fore.CYAN + Style.BRIGHT + "\nSame score, tie!")
                         add_winnings(name, bet)
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif dealer_score >= 17 and dealer_score < 21 and player_score > dealer_score:
-                        print("The dealer stands, you win!")
+                        print(Fore.BLUE + Style.BRIGHT + "The dealer stands, you win!")
                         add_winnings(name, winnings_calculator(bet, player_cards, turn))
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif dealer_score >= 17 and dealer_score < 21 and player_score < dealer_score:
-                        print("The dealer stands, you lose!")
+                        print(Fore.YELLOW + Style.BRIGHT + "The dealer stands, you lose!")
                         break
             break
         if answer == 'double down' and turn == 1:
@@ -318,14 +318,14 @@ if player_score != 21:
             modified_deck, player_cards = after_first_turn_player.hit()
             print(f"\nYou got dealt a {player_cards[-1][0]}\n\nYour cards are now:")
             for card in player_cards:
-                print(card[0])
+                print(Fore.GREEN + Style.BRIGHT + card[0])
             player_score = calculate_hand_value(player_cards)
 
             if len(dealer_cards) == 2 and dealer_score == 21:
                 print("\nThe dealer shows you his hole card.")
                 for card in dealer_cards:
-                    print(card[0])
-                print("\nDealer has blackjack! Better luck next time.")
+                    print(Fore.RED + Style.BRIGHT + card[0])
+                print(Fore.YELLOW + Style.BRIGHT + "\nDealer has blackjack! Better luck next time.")
                 break
     
             if player_score == 21 and dealer_score != 21:
@@ -333,8 +333,8 @@ if player_score != 21:
                 if dealer_score >= 17:
                     print("The dealer reveals his hole card:\n")
                     for card in dealer_cards:
-                        print(card[0])
-                    print("\nDealer stands, you win!")
+                        print(Fore.RED + Style.BRIGHT + card[0])
+                    print(Fore.BLUE + Style.BRIGHT + "\nDealer stands, you win!")
                     add_winnings(name, winnings_calculator(bet * 2, player_cards, turn))
                     print(f"Your balance is now: {get_player_balance(name)}")
                 while dealer_score < 17:
@@ -343,32 +343,32 @@ if player_score != 21:
                     print(f"\nThe dealer gets a {dealer_cards[-1][0]}")
                     print("His cards are now: \n")
                     for card in dealer_cards:
-                        print(card[0])
+                        print(Fore.RED + Style.BRIGHT + card[0])
                     if dealer_score == 21:
-                        print("The dealer also has 21, tie! Better luck next time.")
+                        print(Fore.CYAN + Style.BRIGHT + "The dealer also has 21, tie! Better luck next time.")
                         add_winnings(name, bet * 2)
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif dealer_score > 21:
-                        print("\nDealer busts. You win!!")
+                        print(Fore.BLUE + Style.BRIGHT + "\nDealer busts. You win!!")
                         add_winnings(name, winnings_calculator(bet * 2, player_cards, turn))
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif dealer_score >= 17 and dealer_score < 21:
-                        print("The dealer stands, you win!")
+                        print(Fore.BLUE + Style.BRIGHT + "The dealer stands, you win!")
                         add_winnings(name, winnings_calculator(bet * 2, player_cards, turn))
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                 break
 
             elif player_score == 21 and dealer_score == 21:
-                print("\nYou have 21! But the dealer also has 21, tie! :( Better luck next time!")
+                print(Fore.CYAN + Style.BRIGHT + "\nYou have 21! But the dealer also has 21, tie! :( Better luck next time!")
                 add_winnings(name, bet * 2)
                 print(f"Your balance is now: {get_player_balance(name)}")
                 break
 
             elif player_score > 21:
-                print("\nBust! Better luck next time.")
+                print(Fore.YELLOW + Style.BRIGHT + "\nBust! Better luck next time.")
                 break                
 
             elif player_score < 21 and dealer_score != 21:
@@ -376,19 +376,19 @@ if player_score != 21:
                     print("\nThe dealer reveals his hole card!")
                 print("\nThe dealer has the following cards: ")
                 for card in dealer_cards:
-                    print(card[0])
+                    print(Fore.RED + Style.BRIGHT + card[0])
                 if dealer_score >= 17:
                     print("\nThe dealer stands")
                     if player_score > dealer_score:
-                        print("You win!")
+                        print(Fore.BLUE + Style.BRIGHT + "You win!")
                         add_winnings(name, winnings_calculator(bet * 2, player_cards, turn))
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif player_score < dealer_score:
-                        print("You lose!")
+                        print(Fore.YELLOW + Style.BRIGHT + "You lose!")
                         break
                     elif player_score == dealer_score:
-                        print("Tie!")
+                        print(Fore.CYAN + Style.BRIGHT + "Tie!")
                         add_winnings(name, bet * 2)
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
@@ -398,27 +398,27 @@ if player_score != 21:
                     print("He now has the following cards: \n")
                     dealer_score = calculate_hand_value(dealer_cards)
                     for card in dealer_cards:
-                        print(card[0])
+                        print(Fore.RED + Style.BRIGHT + card[0])
                     if dealer_score == 21:
-                        print("\nDealer has 21! Better luck next time.")
+                        print(Fore.YELLOW + Style.BRIGHT + "\nDealer has 21! Better luck next time.")
                         break
                     elif dealer_score > 21:
-                        print("\nDealer busts, You win!")
+                        print(Fore.BLUE + Style.BRIGHT + "\nDealer busts, You win!")
                         add_winnings(name, winnings_calculator(bet * 2, player_cards, turn))
                         print(f"Your balance is now: {get_player_balance(name)}")
                         break
                     elif dealer_score < 21 and dealer_score >= 17:
                         print("The dealer stands")
                         if player_score > dealer_score:
-                            print("You win!")
+                            print(Fore.BLUE + Style.BRIGHT + "You win!")
                             add_winnings(name, winnings_calculator(bet * 2, player_cards, turn))
                             print(f"Your balance is now: {get_player_balance(name)}")
                             break
                         elif player_score < dealer_score:
-                            print("You lose!")
+                            print(Fore.YELLOW + Style.BRIGHT + "You lose!")
                             break
                         elif player_score == dealer_score:
-                            print("Tie!")
+                            print(Fore.CYAN + Style.BRIGHT + "Tie!")
                             add_winnings(name, bet * 2)
                             print(f"Your balance is now: {get_player_balance(name)}")
                             break
